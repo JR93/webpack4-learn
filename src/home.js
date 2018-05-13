@@ -1,9 +1,9 @@
 import Vue from 'vue';
-import './assets/scss/index.scss';
+import './assets/scss/home.scss';
 import { reverse } from './common/tool/util';
 import(/* webpackChunkName: "vall" */ './common/tool/var');
 const a = 1
-const str = 'JR1233';
+const str = 'JR123';
 
 setTimeout(() => {
   console.log(a);

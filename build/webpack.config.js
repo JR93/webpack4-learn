@@ -1,12 +1,23 @@
+const webpack = require('webpack');
 const path = require('path');
+const glob = require('glob');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const babelConfig = require('./babelrc');
 
-module.exports = {
+const entry = {};
+glob.sync(path.join(__dirname, '../src/*.js')).forEach((filePath) => {
+  const filename = path.basename(filePath, '.js');
+  entry[filename] = filePath;
+});
+
+const webpackConfig = {
   context: path.resolve(__dirname, '../'),
   mode: 'development',
-  entry: './src/index.js',
+  // mode: 'production',
+  entry,
   output: {
     path: path.resolve(__dirname, '../output'),
     filename: 'js/[name].[hash:8].js',
@@ -84,6 +95,37 @@ module.exports = {
       }
     ]
   },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          compress: {
+            drop_console: true,
+            warnings: true
+          }
+        }
+      })
+    ],
+    runtimeChunk: {
+      name: 'runtime'
+    },
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          name: 'vendor',
+          chunks: 'all',
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        },
+        common: {
+          chunks: 'async',
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        }
+      }
+    }
+  },
   plugins: [
     new CleanWebpackPlugin(['../output'], {
       allowExternal: true
@@ -94,3 +136,21 @@ module.exports = {
     })
   ]
 };
+
+glob.sync(path.join(__dirname, '../src/html/*.html')).forEach((filePath) => {
+  const filename = path.basename(filePath, '.html');
+  const config = {
+    filename: `html/${filename}.html`,
+    template: `src/html/${filename}.html`,
+    inject: true,
+    minify: true
+  };
+
+  if (filename in webpackConfig.entry) {
+    config.chunks = ['runtime', 'vendor', filename];
+  }
+
+  webpackConfig.plugins.push(new HtmlWebpackPlugin(config));
+});
+
+module.exports = webpackConfig;
