@@ -1,9 +1,10 @@
-const webpack = require('webpack');
 const path = require('path');
 const glob = require('glob');
+const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const babelConfig = require('./babelrc');
 
@@ -26,6 +27,17 @@ const webpackConfig = {
   },
   module: {
     rules: [
+      {
+        enforce: 'pre',
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        include: path.resolve(__dirname, '../src'),
+        options: {
+          configFile: path.resolve(__dirname, './.eslintrc.js'),
+          failOnError: true,
+          formatter: require('eslint-friendly-formatter')
+        },
+      },
       {
         test: /\.js$/,
         loader: 'babel-loader',
@@ -84,7 +96,7 @@ const webpackConfig = {
         }
       },
       {
-        test: /\.(ttf|otf|eot|woff2?)(\?.*)?$/i,
+        test: /\.(ttf|otf|eot|woff2?|mp3|mp4)(\?.*)?$/i,
         loader: 'url-loader',
         options: {
           fallback: 'file-loader',
@@ -110,16 +122,17 @@ const webpackConfig = {
       name: 'runtime'
     },
     splitChunks: {
+      chunks: 'all',
       cacheGroups: {
-        vendor: {
-          name: 'vendor',
-          chunks: 'all',
+        vendors: {
+          name: 'vendors',
           test: /[\\/]node_modules[\\/]/,
           priority: -10
         },
-        common: {
-          chunks: 'async',
-          minChunks: 2,
+        commons: {
+          name: 'commons',
+          chunks: 'initial',
+          minChunks: Object.keys(entry).length,
           priority: -20,
           reuseExistingChunk: true
         }
@@ -130,11 +143,29 @@ const webpackConfig = {
     new CleanWebpackPlugin(['../output'], {
       allowExternal: true
     }),
+    new FriendlyErrorsPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[hash:8].css',
-      chunkFilename: 'css/[name].[hash:8].css'
+      filename: 'css/[name].[hash:8].css'
     })
-  ]
+  ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, '../src'),
+    },
+    extensions: ['.js', '.vue'],
+    modules: ['node_modules']
+  },
+  externals: {},
+  devServer: {
+    // contentBase: path.resolve(__dirname, '../output'),
+    // contentBase: false,
+    publicPath: '/',
+    hot: true,
+    quiet: true,
+    port: 7890,
+    open: true
+  }
 };
 
 glob.sync(path.join(__dirname, '../src/html/*.html')).forEach((filePath) => {
@@ -147,7 +178,7 @@ glob.sync(path.join(__dirname, '../src/html/*.html')).forEach((filePath) => {
   };
 
   if (filename in webpackConfig.entry) {
-    config.chunks = ['runtime', 'vendor', filename];
+    config.chunks = ['runtime', 'vendors', 'commons', filename];
   }
 
   webpackConfig.plugins.push(new HtmlWebpackPlugin(config));

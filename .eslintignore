@@ -1,0 +1,7 @@
+# ignore directory
+
+/dev
+/output
+/build
+/config
+/node_modules
