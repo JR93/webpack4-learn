@@ -7,7 +7,9 @@
     "webpack": "^4.8.1"
   },
   "scripts": {
-    "dev": "webpack-dev-server --config build/webpack.config.js"
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.dev.js",
+    "test": "cross-env NODE_ENV=test webpack --config build/webpack.prod.js",
+    "prod": "cross-env NODE_ENV=production webpack --config build/webpack.prod.js"
   },
   "repository": "git@github.com:JR93/webpack4-learn.git",
   "author": "guojinrong <guojinrong@yy.com>",
@@ -20,7 +22,10 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
     "babel-runtime": "^6.26.0",
+    "chalk": "^2.4.1",
     "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.1",
+    "cross-env": "^5.1.5",
     "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
@@ -35,15 +40,24 @@
     "friendly-errors-webpack-plugin": "^1.7.0",
     "glob": "^7.1.2",
     "html-webpack-plugin": "^3.2.0",
+    "image-webpack-loader": "^4.2.0",
     "mini-css-extract-plugin": "^0.4.0",
     "node-sass": "^4.9.0",
     "postcss-cssnext": "^3.1.0",
     "postcss-loader": "^2.1.5",
     "postcss-pxtorem": "^4.0.1",
     "sass-loader": "^7.0.1",
+    "semver": "^5.5.0",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",
+    "vue-loader": "^15.0.10",
+    "vue-template-compiler": "^2.5.16",
     "webpack-cli": "^2.1.3",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-dev-server": "^3.1.4",
+    "webpack-merge": "^4.1.2"
+  },
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.5.0"
   }
 }
