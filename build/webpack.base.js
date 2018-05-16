@@ -1,11 +1,11 @@
 const path = require('path')
 const glob = require('glob')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 const babelConfig = require('./babelrc')
+const config = require('./config')
 
 const entry = {}
 glob.sync(path.join(__dirname, '../src/*.js')).forEach((filePath) => {
@@ -21,12 +21,13 @@ module.exports = (mode) => {
     mode: mode === 'development' ? mode : 'production',
     entry,
     output: {
-      path: path.resolve(__dirname, '../output'),
+      path: config[mode].outputPath,
       filename: 'js/[name].[hash:8].js',
       chunkFilename: 'js/[name].[hash:8].js',
-      publicPath: '/'
+      publicPath: config[mode].publicPath
     },
     module: {
+      noParse: [/common\/lib/],
       rules: [
         {
           enforce: 'pre',
@@ -124,13 +125,8 @@ module.exports = (mode) => {
       ]
     },
     plugins: [
-      new VueLoaderPlugin(),
-      new CopyWebpackPlugin([
-        {
-          from: path.resolve(__dirname, '../src/static'),
-          to: path.resolve(__dirname, '../output/static')
-        }
-      ])].concat(!isDev ? [
+      new VueLoaderPlugin()
+      ].concat(!isDev ? [
         new MiniCssExtractPlugin({
           filename: 'css/[name].[hash:8].css',
           chunkFilename: 'css/[name].[hash:8].css'
@@ -139,13 +135,16 @@ module.exports = (mode) => {
     ),
     resolve: {
       alias: {
+        vue$: 'vue/dist/vue.js',
         '@': path.resolve(__dirname, '../src'),
-        vue$: 'vue/dist/vue.js'
+        'common': path.resolve(__dirname, '../src/common'),
+        'components': path.resolve(__dirname, '../src/components'),
+        'assets': path.resolve(__dirname, '../src/assets')
       },
       extensions: ['.js', '.vue'],
       modules: ['node_modules']
     },
-    externals: {}
+    externals: config.provide || {}
   };
 
   glob.sync(path.join(__dirname, '../src/html/*.html')).forEach((filePath) => {

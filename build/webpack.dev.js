@@ -6,6 +6,7 @@ const merge = require('webpack-merge')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 const baseConfig = require('./webpack.base')
+const config = require('./config')
 const mode = process.env.NODE_ENV
 
 module.exports = merge(baseConfig(mode), {
@@ -19,9 +20,9 @@ module.exports = merge(baseConfig(mode), {
     hot: true,
     clientLogLevel: 'none',
     quiet: true,
-    port: 7890,
+    port: config.port || 3000,
     open: true,
     disableHostCheck: true,
-    proxy: {}
+    proxy: config.proxy || {}
   }
 })

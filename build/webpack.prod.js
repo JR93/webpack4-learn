@@ -5,6 +5,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const baseConfig = require('./webpack.base')
+const config = require('./config')
 const mode = process.env.NODE_ENV
 const isProd = mode === 'production'
 
@@ -42,7 +43,7 @@ module.exports = merge(baseConfig(mode), {
     }
   },
   plugins: [
-    new CleanWebpackPlugin(['../output'], {
+    new CleanWebpackPlugin([config[mode].outputPath], {
       allowExternal: true
     })
   ]
