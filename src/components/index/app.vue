@@ -1,7 +1,7 @@
 <template>
-  <div class="app">
-    <div class="title">JR NBA2222</div>
-    <img class="img" src="../../assets/img/111.png" alt="">
+  <div :class="$style.app">
+    <div :class="$style.title">JR NBA2222</div>
+    <img :class="$style.img" src="../../assets/img/111.png" alt="">
   </div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" module>
 @import '@/assets/scss/index.scss';
 @font-face {
   font-family: 'dincond';
@@ -32,6 +32,7 @@ export default {
   .title {
     font-size: 46px;
     font-family: 'dincond';
+    border: 1px solid #666;
   }
   .img {
     width: 200px;

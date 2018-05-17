@@ -4,7 +4,7 @@ module.exports = {
   port: 5200,
   proxy: {},
   provide: {},
-  pxto: 'vw', // rem | vw
+  pxto: '', // rem | vw
   development: {
     outputPath: path.resolve(__dirname, '../dev'),
     publicPath: '/'
@@ -16,5 +16,5 @@ module.exports = {
   production: {
     outputPath: path.resolve(__dirname, '../output'),
     publicPath: '//web.yystatic.com/project/xxx'
-  },
+  }
 }

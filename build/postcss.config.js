@@ -1,4 +1,4 @@
-const config = requrie('./config')
+const config = require('./config')
 
 const postcssConfig = {
   plugins: {
@@ -12,7 +12,7 @@ if (config.pxto === 'vw') {
     'postcss-px-to-viewport': {
       viewportWidth: 750,
       viewportHeight: 1334,
-      unitPrecision: 3,
+      unitPrecision: 4,
       viewportUnit: 'vw',
       selectorBlackList: ['.ignore-px'],
       minPixelValue: 1,

@@ -24,6 +24,6 @@ module.exports = {
     'import/extensions': 0,
     'import/no-extraneous-dependencies': 0,
     'linebreak-style': 0,
-    'class-methods-use-this': 0
+    'class-methods-use-this': 0,
   }
 };

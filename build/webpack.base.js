@@ -60,6 +60,8 @@ module.exports = (mode) => {
             {
               loader: 'css-loader',
               options: {
+                modules: true,
+                localIdentName: '[local]_[hash:base64:8]',
                 sourceMap: isDev,
                 minimize: !isDev
               }
@@ -73,6 +75,8 @@ module.exports = (mode) => {
             {
               loader: 'css-loader',
               options: {
+                modules: true,
+                localIdentName: '[local]_[hash:base64:8]',
                 sourceMap: isDev,
                 minimize: !isDev,
                 importLoaders: 2
