@@ -1,7 +1,8 @@
 <template>
   <div :class="$style.app">
-    <div :class="$style.title">JR NBA2222</div>
-    <img :class="$style.img" src="../../assets/img/111.png" alt="">
+    <input type="text" :class="$style.input" v-model="msg" placeholder="input something...">
+    <div :class="$style.title">JR: {{msg}}</div>
+    <img :class="$style.img" src="../../assets/img/111.png" @click="output">
   </div>
 </template>
 
@@ -9,11 +10,15 @@
 export default {
   name: 'app',
   data () {
-    return {}
+    return {
+      msg: ''
+    }
   },
   created () {},
   methods: {
-    as () {}
+    output () {
+      console.log(this.msg)
+    }
   }
 }
 </script>
@@ -29,10 +34,13 @@ export default {
 }
 .app {
   width: 750px;
+  .input {
+    height: 60px;
+    border: 1px solid #d1d1d1;
+  }
   .title {
     font-size: 46px;
     font-family: 'dincond';
-    border: 1px solid #666;
   }
   .img {
     width: 200px;

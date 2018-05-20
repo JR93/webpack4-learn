@@ -1,5 +1,3 @@
-// import Vue from 'vue'
-// import aa from './var'
-export function revers (str) {
+export function reverse (str) {
   return str.split('').reverse().join('')
 }

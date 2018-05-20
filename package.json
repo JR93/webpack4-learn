@@ -1,5 +1,5 @@
 {
-  "name": "webpack4-learn",
+  "name": "webpack4-vue-seed",
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
@@ -11,7 +11,7 @@
     "test": "cross-env NODE_ENV=test webpack --config build/webpack.prod.js",
     "prod": "cross-env NODE_ENV=production webpack --config build/webpack.prod.js"
   },
-  "repository": "git@github.com:JR93/webpack4-learn.git",
+  "repository": "git@github.com:JR93/webpack4-vue-seed.git",
   "author": "guojinrong <guojinrong@yy.com>",
   "license": "MIT",
   "devDependencies": {

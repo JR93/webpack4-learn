@@ -4,17 +4,18 @@ module.exports = {
   port: 5200,
   proxy: {},
   provide: {},
-  pxto: '', // rem | vw
+  pxto: 'vw', // rem | vw
   development: {
     outputPath: path.resolve(__dirname, '../dev'),
     publicPath: '/'
   },
   test: {
     outputPath: path.resolve(__dirname, '../dist'),
-    publicPath: '//webtest.yystatic.com/project/xxx'
+    // publicPath: '//webtest.yystatic.com/project/xxx/'
+    publicPath: '../'
   },
   production: {
     outputPath: path.resolve(__dirname, '../output'),
-    publicPath: '//web.yystatic.com/project/xxx'
+    publicPath: '//web.yystatic.com/project/xxx/'
   }
 }

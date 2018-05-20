@@ -15,7 +15,7 @@ module.exports = merge(baseConfig(mode), {
     new webpack.HotModuleReplacementPlugin()
   ],
   devServer: {
-    contentBase: path.resolve(__dirname, '../output'),
+    contentBase: path.resolve(__dirname, '../src'),
     publicPath: '/',
     hot: true,
     clientLogLevel: 'none',
