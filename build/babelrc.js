@@ -1,5 +1,7 @@
 module.exports = {
-  "presets": ["env"],
+  "presets": [["env", {
+    "modules": false
+  }]],
   "plugins": [
     "transform-runtime",
     "syntax-dynamic-import"
